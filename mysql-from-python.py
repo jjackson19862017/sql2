@@ -7,15 +7,18 @@ import pymysql
 username = os.getenv('C9_USER')
 
 # Connect to Database
-connection = pymysql.connect(host='localhost', user=username, password='', db='Chinook')
+connection = pymysql.connect(host='localhost',
+                             user=username,
+                             password='',
+                             db='Chinook')
 
 try:
     # Run a Query
-    with connection.cursor() as cursor:
-        sql = "Select * From Artist;"
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        sql = "Select * From Genre;"
         cursor.execute(sql)
-        result = cursor.fetchall()
-        print(result)
+        for row in cursor:
+            print(row)
 finally:
     # Close the connection, Regardless of wether the above was successful
     connection.close()
